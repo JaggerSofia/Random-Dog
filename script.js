@@ -1,8 +1,13 @@
 'use strict';
 
-function getDogImage() {
-  fetch('https://dog.ceo/api/breeds/image/random/3')
-    .then(response => response.json())
+function getDogImage(breed) {
+  const url =`https://dog.ceo/api/breed/${breed}/images/random`
+  fetch(url)
+    .then(response => {
+      if(response.ok) {
+        return response.json();
+      }
+    })
     .then(responseJson => 
       displayResults(responseJson))
     .catch(error => alert('Something went wrong. Try again later.'));
@@ -11,9 +16,9 @@ function getDogImage() {
 function displayResults(responseJson) {
   console.log(responseJson);
   //replace the existing image with the new one
-  for(let i=0; i<responseJson.message.length; i++)
-  $('.results').append(
-    `<img src="${responseJson.message[i]}" class="results-img">`
+  // for(let i=0; i<responseJson.message.length; i++)
+  $('.results').html(
+    `<img src="${responseJson.message}" class="results-img">`
   )
   //display the results section
   $('.results').removeClass('hidden');
@@ -22,7 +27,8 @@ function displayResults(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    getDogImage();
+    const breed=$('.number').val();
+    getDogImage(breed);
   });
 }
 
