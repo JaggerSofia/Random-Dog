@@ -28,6 +28,7 @@ function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const breed=$('.number').val();
+    console.log(breed)
     getDogImage(breed);
   });
 }
